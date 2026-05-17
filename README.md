@@ -1,7 +1,7 @@
 # Project: Server Performance Analytics Shell Script
 
 ## Overview
-You are required to write a script that can analyse basic server performance stats. Once your script is functional, you must containerize it.
+You are required to write a script that can analyse basic server performance stats. Once your script is functional, you must containerize it and automate its lifecycle by building a native CI/CD pipeline using GitHub Actions.
 
 ## Script Requirements
 Your task is to create a script named `server-stats-YOUR_USERNAME.sh`. The script must be executable on any standard Linux distribution and provide the following analytics:
@@ -12,7 +12,7 @@ Your task is to create a script named `server-stats-YOUR_USERNAME.sh`. The scrip
 * **Disk Usage:** Total Free vs. Used disk space, including the percentage used.
 * **Top 5 Processes by CPU Usage:** List the top 5 resource consumers.
 * **Top 5 Processes by Memory Usage:** List the top 5 memory consumers.
-
+****
 ### Stretch Goals (Optional)
 For those looking to go beyond the basics, feel free to add:
 * OS Version & Uptime.
@@ -25,9 +25,22 @@ To ensure the script runs in a standardized environment and is easily portable, 
 
 Since containers are isolated, running a performance script inside one will typically show the container's resources. For this exercise, the focus is on the successful execution and output of the host system metrics.
 
+## CI/CD Pipeline Requirements (GitHub Actions)
+You must automate the validation, security auditing, and deployment of your container. 
+
+### Naming Convention Rule:
+To prevent your pipeline from overriding or mixing up with your classmates workflows in the central repository, you **MUST** uniquely identify your pipeline:
+1. Name your workflow file exactly: `.github/workflows/server-pipeline-YOUR_USERNAME.yml`
+2. Set the internal YAML name property to: `name: Server Stats Pipeline - YOUR_USERNAME`
+
+### Pipeline Stages & Rules:
+* **Stage 1: Linting (CI):** Use `shellcheck` to analyze your code syntax. The pipeline must fail if there are syntax errors or bad scripting practices.
+* **Stage 2: Security Scan (DevSecOps):** Use `trivy` to audit your repository filesystem for vulnerabilities or hardcoded secrets before building.
+* **Stage 3: Build & Publish (CD):** If stages 1 and 2 pass, the pipeline must automatically build your Docker image and push it to the **GitHub Container Registry (GHCR)**.
+
 ## How to Submit Your Work
 
-This project follows the **Standard Open Source Contribution Workflow**. Please follow these steps carefully:
+This project follows the **Standard Open Source Contribution Workflow**. Example workflow will be:
 
 1.  **Fork this Repository:** Click the "Fork" button at the top right of this page to create a copy in your own GitHub account.
 2.  **Clone Your Fork:**
