@@ -49,15 +49,15 @@ echo
 
 CPU_IDLE_1=$(awk '/^cpu / {idle=$5; total=0; for(i=2;i<=NF;i++) total+=$i; print idle, total}' /proc/stat)
 
-IDLE1=$(echo $CPU_IDLE_1 | awk '{print $1}')
-TOTAL1=$(echo $CPU_IDLE_1 | awk '{print $2}')
+IDLE1=$(echo "$CPU_IDLE_1" | awk '{print $1}')
+TOTAL1=$(echo "$CPU_IDLE_1" | awk '{print $2}')
 
 sleep 1
 
 CPU_IDLE_2=$(awk '/^cpu / {idle=$5; total=0; for(i=2;i<=NF;i++) total+=$i; print idle, total}' /proc/stat)
 
-IDLE2=$(echo $CPU_IDLE_2 | awk '{print $1}')
-TOTAL2=$(echo $CPU_IDLE_2 | awk '{print $2}')
+IDLE2=$(echo "$CPU_IDLE_2" | awk '{print $1}')
+TOTAL2=$(echo "$CPU_IDLE_2" | awk '{print $2}')
 
 IDLE_DIFF=$((IDLE2 - IDLE1))
 TOTAL_DIFF=$((TOTAL2 - TOTAL1))
