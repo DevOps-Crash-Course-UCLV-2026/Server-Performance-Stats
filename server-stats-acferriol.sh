@@ -2,7 +2,12 @@
 
 
 #Ejecutar: ./server-stats-acferriol.sh
-echo "Metricas de Sistema"
+HOST_ROOT="" #Para chequear docker
+if [ -d "/host" ]; then
+    HOST_ROOT="/host"
+fi
+
+echo "Métricas del Sistema (Host: ${HOST_ROOT:-/})"
 
 #Uso de CPU
 echo "####################"
@@ -32,7 +37,7 @@ echo "Porcentaje de memoria usada: ${mem_percent}%"
 echo "########################"
 echo "# USO TOTAL DE DISCO #"
 echo "########################"
-disk_line=$(df -h / | tail -1)
+disk_line=$(df -h ${HOST_ROOT}/ | tail -1)
 total_disk=$(echo "$disk_line" | awk '{print $2}')
 used_disk=$(echo "$disk_line" | awk '{print $3}')
 free_disk=$(echo "$disk_line" | awk '{print $4}')
@@ -60,7 +65,7 @@ echo "$process"
 echo "#######################"
 echo "#  SISTEMA OPERATIVO  #"
 echo "#######################"
-distro=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
+distro=$(grep '^PRETTY_NAME=' ${HOST_ROOT}/etc/os-release | cut -d= -f2 | tr -d '"')
 echo "Distribución: $distro"
 
 #UpTime del Sistema y carga media
@@ -83,6 +88,6 @@ echo "Usuarios conectados: $users"
 echo "###################"
 echo "# LOGINS FALLIDOS #"
 echo "###################"
-failed_logins=$(grep "Failed password" /var/log/auth.log | wc -l)
+failed_logins=$(find /var/log/auth.log -type f 2>/dev/null | wc -l)
 echo "Número de logins fallidos: $failed_logins"
 
