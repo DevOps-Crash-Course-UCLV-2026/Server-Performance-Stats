@@ -1,0 +1,11 @@
+services:
+  monitor:
+    build:
+      context: ..
+      dockerfile: docker-acferriol/Dockerfile
+    container_name: server-monitor
+    pid: host
+    volumes: #Esto es como traer las cosas del host, tuve problemas con algunas (proc) que me dieron cacharra
+      - /:/host:ro                
+      - /var/run/utmp:/var/run/utmp:ro   
+      - /var/log/auth.log:/host/var/log/auth.log:ro        
